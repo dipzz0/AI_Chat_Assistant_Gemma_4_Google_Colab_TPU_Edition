@@ -1,4 +1,7 @@
-<h1 align="center">🤖 Google Colab X Gemma 4 AI Chat Assistant ( Google Cloud TPU Edition)</h1>
+<h1 align="center">
+  🤖 Google Colab X Gemma 4<br>
+  AI Chat Assistant ( Google Cloud TPU Edition)
+</h1>
 
 <p align="center">
   <img src="banner.jpg" alt="Google Colab X Gemma 4 AI Chat Assistant Banner" width="100%">
