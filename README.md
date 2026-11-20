@@ -1,7 +1,7 @@
-# 🤖 Gemma 4 AI Assistant (Google Cloud TPU Edition)
+# 🤖 Google Colab X Gemma 4  AI Chat Assistant ( Google Cloud TPU Edition)
 
 <p align="center">
-  <img src="banner.jpg" alt="Gemma 4 TPU Assistant Banner" width="100%">
+  <img src="banner.jpg" alt="Google Colab X Gemma 4 AI Chat Assistant Banner" width="100%">
 </p>
 
 <p align="center">
