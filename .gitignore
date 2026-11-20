@@ -35,6 +35,13 @@ chat_history/
 *.pth
 active_chat.json
 
+# Environment & Secrets
+.env
+.env.*
+*.key
+*.token
+*.secret
+
 # OS & IDE
 .DS_Store
 Thumbs.db
