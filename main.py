@@ -1,5 +1,5 @@
 """
-Gemma 4 AI Assistant (Google Cloud TPU Edition)
+Google Colab X Gemma 4  AI Chat Assistant ( Google Cloud TPU Edition)
 High-performance conversational AI running natively on Google Cloud TPU.
 """
 
