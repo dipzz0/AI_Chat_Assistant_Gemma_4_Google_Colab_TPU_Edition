@@ -65,26 +65,14 @@ Running large modern AI models usually requires expensive graphic cards (GPUs) a
 
 We selected Google's **Gemma 4 E4B-it** as the core intelligence engine for this project. Here are the exact specifications:
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                       GEMMA 4 E4B SPECIFICATION CARD                        │
-├───────────────────────────────┬─────────────────────────────────────────────┤
-│ 🏷️ Model ID                   │ google/gemma-4-E4B-it (Hugging Face)        │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 📐 Parameters & Architecture  │ E4B (~4 Billion parameters)                 │
-│                               │ Ultra-lightweight & TPU compute-optimized   │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 🎯 Model Type                 │ -it (Instruction-Tuned)                     │
-│                               │ Fine-tuned specifically for chat & reasoning│
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 📦 Model Class                │ AutoModelForImageTextToText (Transformers)  │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ ⚙️ Compute Precision          │ bfloat16 (Native format for TPU MXUs)       │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 📜 License                    │ Apache 2.0 (Completely open & ungated)      │
-│                               │ Zero API keys, no tokens & no waitlist      │
-└───────────────────────────────┴─────────────────────────────────────────────┘
-```
+| Specification Field | Technical Value | Engineering & Practical Detail |
+| :--- | :--- | :--- |
+| **🏷️ Model ID** | `google/gemma-4-E4B-it` (Hugging Face) | Official open-weights model repository on Hugging Face Hub |
+| **📐 Parameters & Architecture** | **E4B (~4 Billion parameters)** | Ultra-lightweight architecture optimized for TPU matrix computation |
+| **🎯 Model Type** | **`-it` (Instruction-Tuned)** | Fine-tuned specifically for natural conversations, reasoning & instructions |
+| **📦 Model Class** | `AutoModelForImageTextToText` | Canonical Hugging Face multimodal architecture class for Gemma 4 |
+| **⚙️ Compute Precision** | **`bfloat16`** | Native Brain Floating Point format for TPU Matrix Multiply Units (MXUs) |
+| **📜 License** | **Apache 2.0 (Completely Ungated)** | 100% open-source; requires zero tokens, no API keys & no waitlists |
 
 ### Why this model is special:
 - **No Login or API Key Required:** Many models on Hugging Face require you to request access or paste secret tokens. Gemma 4 E4B is open under Apache 2.0, meaning it runs right away with zero friction.
@@ -206,17 +194,12 @@ massive matrix calculations for AI models in parallel.<end_of_turn>
 
 ### Token Budget (How Much Context You Can Use)
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                          TOKEN BUDGET ALLOCATION                            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  Past Chat History (Memory)       ~1,000 - 2,000 Tokens                     │
-│  Your Current Question            ~50 - 300 Tokens                          │
-│  Model Response (Per Turn)        250 Tokens (Adjustable anytime)           │
-│  ─────────────────────────────────────────────────────────────────────────  │
-│  Maximum Supported Context        Up to 8,192 Tokens                        │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+| Context Category | Token Allocation | Purpose & Role |
+| :--- | :---: | :--- |
+| **Past Chat History (Memory)** | `~1,000 - 2,000 Tokens` | Preserves conversational context across multi-turn exchanges from `active_chat.json` |
+| **Active User Prompt** | `~50 - 300 Tokens` | The latest user message or query submitted into the chat interface |
+| **Model Response (Per Turn)** | `250 Tokens` | Default generation cap (`max_new_tokens`), adjustable for longer answers |
+| **Maximum Supported Context** | **`Up to 8,192 Tokens`** | Full context geometry supported by the Gemma 4 architecture |
 
 > **What is a Token?** Roughly 1 token = 4 characters or 0.75 English words. 250 tokens equal approximately 180 to 200 words per response.
 
