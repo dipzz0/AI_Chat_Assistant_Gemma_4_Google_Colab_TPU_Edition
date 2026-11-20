@@ -1,6 +1,6 @@
 <h1 align="center">
   🤖 Google Colab X Gemma 4<br>
-  AI Chat Assistant ( Google Cloud TPU Edition)
+  AI Chat Assistant ( Google Colab TPU Edition)
 </h1>
 
 <p align="center">
