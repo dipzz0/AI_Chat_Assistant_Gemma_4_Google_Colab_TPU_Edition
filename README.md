@@ -245,8 +245,8 @@ If you are running on a machine or VM with TPU access:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/dipzz0/AI_Chat_Assistant_Gemma_4_Google_Colab_TPU.git
-cd AI_Chat_Assistant_Gemma_4_Google_Colab_TPU
+git clone https://github.com/dipzz0/AI_Chat_Assistant_Gemma_4_Google_Colab_TPU_Edition.git
+cd AI_Chat_Assistant_Gemma_4_Google_Colab_TPU_Edition
 
 # 2. Run the assistant script
 python main.py
@@ -261,7 +261,7 @@ python main.py
 ## 📂 Project Files Manifest
 
 ```text
-AI_Chat_Assistant_Gemma_4_Google_Colab_TPU/
+AI_Chat_Assistant_Gemma_4_Google_Colab_TPU_Edition/
 ├── 📄 AI_Assistant_chat_based.ipynb  # Interactive Google Colab Notebook with visual chatbox
 ├── 🐍 main.py                       # Standalone Python CLI script for terminal usage
 ├── 🖼️ banner.jpg                    # Project architectural header banner
