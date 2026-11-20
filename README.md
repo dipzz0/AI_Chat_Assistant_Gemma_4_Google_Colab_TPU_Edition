@@ -16,33 +16,21 @@
 ---
 
 ## 📑 Table of Contents
-- [📌 Executive Overview](#-executive-overview)
-- [✨ Key Architectural Innovations](#-key-architectural-innovations)
-- [🏗️ System Architecture & Data Flow](#️-system-architecture--data-flow)
-- [📊 Level-Wise Engineering Breakdown](#-level-wise-engineering-breakdown)
-  - [Level 1: Hardware & Storage Handshake](#level-1-hardware--storage-handshake)
-  - [Level 2: Dependency Matrix & Environment Isolation](#level-2-dependency-matrix--environment-isolation)
-  - [Level 3: Zero-Login Model Snapshot Caching](#level-3-zero-login-model-snapshot-caching)
-  - [Level 4: Direct TPU Weight Streaming (bfloat16)](#level-4-direct-tpu-weight-streaming-bfloat16)
-  - [Level 5: Persistent Session Memory Engine](#level-5-persistent-session-memory-engine)
-  - [Level 6: Asynchronous Non-Blocking Streaming UI](#level-6-asynchronous-non-blocking-streaming-ui)
-- [⚡ Token Processing & Latency Pipeline](#-token-processing--latency-pipeline)
-  - [End-to-End Sequence Diagram](#end-to-end-sequence-diagram)
-  - [Token Budget & Context Geometry](#token-budget--context-geometry)
-  - [Special Token Mechanics](#special-token-mechanics)
-- [📥 Input & Output Specifications](#-input--output-specifications)
-  - [Prompt Payload Schema](#prompt-payload-schema)
-  - [Canonical Chat Markup](#canonical-chat-markup)
-  - [Response Stream Structure](#response-stream-structure)
-  - [Multi-Turn Interaction Trace](#multi-turn-interaction-trace)
-- [📈 Hardware & Performance Benchmarks](#-hardware--performance-benchmarks)
-- [🚀 Quick Start & Execution Modes](#-quick-start--execution-modes)
-  - [Option A: Interactive Colab Notebook](#option-a-interactive-colab-notebook-recommended)
-  - [Option B: Production Standalone CLI](#option-b-production-standalone-cli)
-- [📂 Repository Structure](#-repository-structure)
-- [🛡️ Security, Privacy & Integrity](#️-security-privacy--integrity)
-- [❓ Troubleshooting & FAQ](#-troubleshooting--faq)
-- [📜 License & Attributions](#-license--attributions)
+
+| No. | Section | Core Focus | Quick Jump |
+| :---: | :--- | :--- | :---: |
+| `01` | **📌 Executive Overview** | High-level summary & fundamental problem statement | [Navigate](#-executive-overview) |
+| `02` | **✨ Key Architectural Innovations** | Core architectural pillars & engineering differentiators | [Navigate](#-key-architectural-innovations) |
+| `03` | **🏗️ System Architecture & Data Flow** | 3-Layer pipeline diagram (UI, Host CPU & Cloud TPU) | [Navigate](#️-system-architecture--data-flow) |
+| `04` | **📊 Level-Wise Engineering Breakdown** | Detailed analysis of execution levels (Level 1 to 6) | [Navigate](#-level-wise-engineering-breakdown) |
+| `05` | **⚡ Token Processing & Latency Pipeline** | Sequence diagram, token budget & special token mechanics | [Navigate](#-token-processing--latency-pipeline) |
+| `06` | **📥 Input & Output Specifications** | JSON schemas, prompt templates & streaming chunk payloads | [Navigate](#-input--output-specifications) |
+| `07` | **📈 Hardware & Performance Benchmarks** | TPU v5e vs NVIDIA T4 / A100 vs CPU comparative matrix | [Navigate](#-hardware--performance-benchmarks) |
+| `08` | **🚀 Quick Start & Execution Modes** | Google Colab interactive guide & standalone CLI setup | [Navigate](#-quick-start--execution-modes) |
+| `09` | **📂 Repository Structure** | Complete file tree manifest and purpose | [Navigate](#-repository-structure) |
+| `10` | **🛡️ Security, Privacy & Integrity** | Zero secret storage, private drive isolation policies | [Navigate](#️-security-privacy--integrity) |
+| `11` | **❓ Troubleshooting & FAQ** | Common error mitigations, OOM handling & configuration | [Navigate](#-troubleshooting--faq) |
+| `12` | **📜 License & Attributions** | Apache 2.0 open-source licensing & model attributions | [Navigate](#-license--attributions) |
 
 ---
 
@@ -65,23 +53,14 @@ This architecture solves these fundamental challenges through a zero-configurati
 
 ## ✨ Key Architectural Innovations
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                      GEMMA 4 TPU ASSISTANT CAPABILITIES                     │
-├───────────────────────────────┬─────────────────────────────────────────────┤
-│ 🚀 Google Cloud TPU Native    │ Native device_map="tpu" with XLA bfloat16   │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 💾 Persistent Drive Cache     │ Auto-mounts Google Drive for zero re-download│
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 🧠 Multi-Turn Memory Engine   │ Continuous JSON state with auto-commit      │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ ⚡ Real-Time Token Streaming   │ TextIteratorStreamer decoupled with Threading│
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 🔓 Zero-Token Ungated Access  │ Apache 2.0 weights: no HF API key required   │
-├───────────────────────────────┼─────────────────────────────────────────────┤
-│ 🖥️ Dual Execution Paradigms   │ Interactive Colab UI + Standalone CLI Script│
-└───────────────────────────────┴─────────────────────────────────────────────┘
-```
+| Innovation Pillar | Technical Mechanism | Engineering Benefit & Impact |
+| :--- | :--- | :--- |
+| **🚀 Google Cloud TPU Native** | Native `device_map="tpu"` paired with PyTorch XLA `bfloat16` precision | Eliminates eager CPU fallbacks; leverages 16GB HBM2 buffer & Tensor Cores at ~197 TFLOPS. |
+| **💾 Persistent Drive Caching** | Automated Google Drive symlink & snapshot mount manager | Saves 2–4 GB redownloads on session restarts; achieves cold-start elimination. |
+| **🧠 Persistent Session Memory** | Atomic JSON serialization (`active_chat.json`) with auto-commit | Maintains conversational continuity across browser crashes, disconnects, and cell restarts. |
+| **⚡ Real-Time Token Streaming** | Decoupled background `threading.Thread` with `TextIteratorStreamer` | Achieves smooth token yielding (< 20ms/token) without freezing the Colab UI event loop. |
+| **🔓 Zero-Token Ungated Access** | Apache 2.0 licensed `google/gemma-4-E4B-it` weights | Zero Hugging Face auth tokens, API keys, or gate validation needed. |
+| **🖥️ Dual Execution Paradigms** | Continuous `ipywidgets` notebook interface + Headless CLI (`main.py`) | Flexible execution from interactive web exploration to containerized server deployments. |
 
 ---
 
